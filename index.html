@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+
+<title>Rebika Shaie | Portfolio V3</title>
+
+<style>
+
+/* ================= RESET ================= */
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Inter,system-ui;
+scroll-behavior:smooth;
+}
+
+:root{
+--bg:#020617;
+--card:rgba(255,255,255,.06);
+--accent:#00e5ff;
+--accent2:#7c3aed;
+--text:#fff;
+--sub:#94a3b8;
+}
+
+body{
+background:var(--bg);
+color:var(--text);
+overflow-x:hidden;
+}
+
+/* ================= PRELOADER ================= */
+
+#loader{
+position:fixed;
+inset:0;
+background:#020617;
+display:flex;
+justify-content:center;
+align-items:center;
+z-index:9999;
+font-size:28px;
+letter-spacing:3px;
+animation:fadeOut 1s ease 2s forwards;
+}
+
+@keyframes fadeOut{
+to{opacity:0;visibility:hidden;}
+}
+
+/* ================= CURSOR GLOW ================= */
+
+.cursor{
+position:fixed;
+width:350px;
+height:350px;
+background:radial-gradient(circle,var(--accent),transparent 60%);
+opacity:.15;
+pointer-events:none;
+transform:translate(-50%,-50%);
+z-index:-1;
+}
+
+/* ================= PARTICLES ================= */
+
+canvas{
+position:fixed;
+inset:0;
+z-index:-2;
+}
+
+/* ================= NAV ================= */
+
+nav{
+position:fixed;
+top:20px;
+left:50%;
+transform:translateX(-50%);
+background:rgba(255,255,255,.04);
+backdrop-filter:blur(20px);
+padding:14px 35px;
+border-radius:40px;
+display:flex;
+gap:28px;
+z-index:999;
+}
+
+nav a{
+text-decoration:none;
+color:white;
+font-weight:600;
+transition:.3s;
+}
+
+nav a:hover{color:var(--accent);}
+
+/* ================= HERO ================= */
+
+.hero{
+min-height:100vh;
+display:flex;
+flex-direction:column;
+justify-content:center;
+align-items:center;
+text-align:center;
+animation:heroEnter 1.2s ease;
+}
+
+@keyframes heroEnter{
+from{opacity:0;transform:translateY(60px);}
+to{opacity:1;}
+}
+
+.profile{
+width:210px;
+height:210px;
+border-radius:50%;
+border:4px solid var(--accent);
+box-shadow:0 0 50px var(--accent);
+object-fit:cover;
+animation:float 6s infinite ease-in-out;
+}
+
+@keyframes float{
+50%{transform:translateY(-15px)}
+}
+
+.hero h1{
+font-size:clamp(40px,6vw,70px);
+margin-top:25px;
+}
+
+.role{
+color:var(--accent);
+font-size:24px;
+margin-top:10px;
+height:30px;
+}
+
+/* ================= SECTIONS ================= */
+
+section{
+padding:110px 8%;
+max-width:1200px;
+margin:auto;
+}
+
+.title{
+text-align:center;
+font-size:40px;
+margin-bottom:60px;
+}
+
+/* ================= CARDS ================= */
+
+.card{
+background:var(--card);
+padding:35px;
+border-radius:20px;
+backdrop-filter:blur(15px);
+transition:.4s;
+transform-style:preserve-3d;
+}
+
+.card:hover{
+transform:rotateX(6deg) rotateY(-6deg);
+box-shadow:0 0 35px rgba(0,229,255,.3);
+}
+
+/* ================= GRID ================= */
+
+.grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+gap:25px;
+}
+
+/* ================= SKILLS ================= */
+
+.skill{margin:20px 0;}
+
+.bar{
+height:8px;
+background:#111827;
+border-radius:20px;
+overflow:hidden;
+}
+
+.fill{
+height:100%;
+width:0;
+background:linear-gradient(90deg,var(--accent),var(--accent2));
+transition:2s;
+}
+
+/* ================= COUNTERS ================= */
+
+.stats{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
+gap:20px;
+text-align:center;
+}
+
+.stat{
+background:var(--card);
+padding:30px;
+border-radius:15px;
+}
+
+.stat h2{
+font-size:36px;
+color:var(--accent);
+}
+
+/* ================= TIMELINE ================= */
+
+.timeline{
+border-left:2px solid var(--accent);
+padding-left:30px;
+}
+
+.timeline div{
+margin-bottom:35px;
+position:relative;
+}
+
+.timeline div::before{
+content:"";
+position:absolute;
+left:-38px;
+top:6px;
+width:16px;
+height:16px;
+background:var(--accent);
+border-radius:50%;
+box-shadow:0 0 20px var(--accent);
+}
+
+/* ================= REVEAL ================= */
+
+.fade{
+opacity:0;
+transform:translateY(40px);
+transition:1s;
+}
+
+.fade.show{
+opacity:1;
+transform:translateY(0);
+}
+
+/* ================= FOOTER ================= */
+
+footer{
+text-align:center;
+padding:40px;
+color:var(--sub);
+}
+
+</style>
+</head>
+
+<body>
+
+<div id="loader">REB IKA</div>
+
+<div class="cursor" id="cursor"></div>
+<canvas id="bg"></canvas>
+
+<nav>
+<a href="#home">Home</a>
+<a href="#about">About</a>
+<a href="#skills">Skills</a>
+<a href="#experience">Experience</a>
+<a href="#contact">Contact</a>
+</nav>
+
+<section class="hero" id="home">
+
+<img src="profile.jpg" class="profile">
+
+<h1>Rebika Shaie</h1>
+<div class="role" id="typing"></div>
+
+</section>
+
+<section id="about" class="fade">
+<h2 class="title">Professional Profile</h2>
+
+<div class="card">
+HR & Administration Head leading workforce operations, internship programs,
+organizational coordination, recruitment strategy, and IT education management.
+</div>
+</section>
+
+<section class="fade">
+<div class="stats">
+<div class="stat"><h2 class="count" data-target="100">0</h2><p>Interns Managed</p></div>
+<div class="stat"><h2 class="count" data-target="10">0</h2><p>Programs Led</p></div>
+<div class="stat"><h2 class="count" data-target="2">0</h2><p>Years Leadership</p></div>
+</div>
+</section>
+
+<section id="skills" class="fade">
+<h2 class="title">Core Skills</h2>
+
+<div class="card">
+
+<div class="skill">HR Management<div class="bar"><div class="fill" data-width="95%"></div></div></div>
+<div class="skill">Internship Supervision<div class="bar"><div class="fill" data-width="92%"></div></div></div>
+<div class="skill">Administration<div class="bar"><div class="fill" data-width="90%"></div></div></div>
+
+</div>
+</section>
+
+<section id="experience" class="fade">
+<h2 class="title">Experience</h2>
+
+<div class="timeline">
+
+<div>
+<h3>HR & Administration Head — CODE IT</h3>
+<p>2024 – Present</p>
+</div>
+
+<div>
+<h3>Project Manager — CODE IT</h3>
+<p>2024 – 2026</p>
+</div>
+
+</div>
+</section>
+
+<section id="contact" class="fade">
+<h2 class="title">Contact</h2>
+
+<div class="card" style="text-align:center">
+<p>Email: shaierebika@gmail.com</p>
+</div>
+
+</section>
+
+<footer>
+© 2026 Rebika Shaie — Portfolio V3
+</footer>
+
+<script>
+
+/* Cursor Glow */
+
+const cursor=document.getElementById("cursor");
+document.addEventListener("mousemove",e=>{
+cursor.style.left=e.clientX+"px";
+cursor.style.top=e.clientY+"px";
+});
+
+/* Typing */
+
+const roles=[
+"HR & Administration Head",
+"Operations Leader",
+"Project Manager"
+];
+
+let i=0,j=0,del=false;
+
+function type(){
+const text=roles[i];
+document.getElementById("typing").textContent=text.substring(0,j);
+
+if(!del && j++===text.length){
+del=true;
+setTimeout(type,1200);
+return;
+}
+if(del && j--===0){
+del=false;
+i=(i+1)%roles.length;
+}
+setTimeout(type,del?40:80);
+}
+type();
+
+/* Scroll Reveal */
+
+const observer=new IntersectionObserver(entries=>{
+entries.forEach(e=>{
+if(e.isIntersecting)e.target.classList.add("show");
+});
+});
+
+document.querySelectorAll(".fade")
+.forEach(el=>observer.observe(el));
+
+/* Skill Fill */
+
+document.querySelectorAll(".fill").forEach(bar=>{
+const o=new IntersectionObserver(entries=>{
+entries.forEach(e=>{
+if(e.isIntersecting){
+bar.style.width=bar.dataset.width;
+}
+});
+});
+o.observe(bar);
+});
+
+/* Counter Animation */
+
+const counters=document.querySelectorAll(".count");
+
+const counterObserver=new IntersectionObserver(entries=>{
+entries.forEach(entry=>{
+if(entry.isIntersecting){
+const el=entry.target;
+let n=0;
+const target=+el.dataset.target;
+
+const interval=setInterval(()=>{
+n+=1;
+el.textContent=n;
+if(n>=target) clearInterval(interval);
+},20);
+}
+});
+});
+
+counters.forEach(c=>counterObserver.observe(c));
+
+/* Particles */
+
+const canvas=document.getElementById("bg");
+const ctx=canvas.getContext("2d");
+
+function resize(){
+canvas.width=innerWidth;
+canvas.height=innerHeight;
+}
+resize();
+onresize=resize;
+
+let particles=[];
+
+for(let i=0;i<120;i++){
+particles.push({
+x:Math.random()*canvas.width,
+y:Math.random()*canvas.height,
+r:Math.random()*2,
+dx:(Math.random()-.5),
+dy:(Math.random()-.5)
+});
+}
+
+function animate(){
+ctx.clearRect(0,0,canvas.width,canvas.height);
+
+particles.forEach(p=>{
+ctx.beginPath();
+ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
+ctx.fillStyle="#00e5ff";
+ctx.fill();
+
+p.x+=p.dx;
+p.y+=p.dy;
+
+if(p.x<0||p.x>canvas.width)p.dx*=-1;
+if(p.y<0||p.y>canvas.height)p.dy*=-1;
+});
+
+requestAnimationFrame(animate);
+}
+animate();
+
+</script>
+
+</body>
+</html>
